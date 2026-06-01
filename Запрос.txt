@@ -1,0 +1,11 @@
+SELECT 
+    C.id AS Номер_Заказа,
+    P.Product AS Продукция,
+    C.Quantity AS Количество,
+    SUM(S.Quantity * Cost) AS Себестоимость_1шт,
+    C.Quantity * SUM(S.Quantity * Cost) AS Полная_стоимость
+FROM СustomersOrder C
+INNER JOIN Products P ON C.Product = p.Id
+INNER JOIN Specification S ON P.Id = S.Materials
+INNER JOIN Materials M ON S.Materials = M.Id
+GROUP BY C.Id, P.Product, C.Quantity;
