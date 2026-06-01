@@ -1,0 +1,621 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище DBBurgerPlusModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CalculatingCost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Product" Type="int" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="float" Nullable="false" />
+          <Property Name="Cost" Type="float" Nullable="false" />
+          <Property Name="Total" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Costs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Product" Type="int" />
+          <Property Name="Material" Type="int" />
+          <Property Name="Cost" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Materials">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Material" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="float" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Product" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Code" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="float" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Specification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Materials" Type="int" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Quantity" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Role" Type="int" Nullable="false" />
+          <Property Name="Block" Type="bit" Nullable="false" />
+          <Property Name="LogTry" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сustomers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Inn" Type="nvarchar" MaxLength="50" />
+          <Property Name="Addres" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Saleman" Type="bit" Nullable="false" />
+          <Property Name="Buyer" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="СustomersOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Product" Type="int" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Cost" Type="int" Nullable="false" />
+          <Property Name="Summa" Type="int" Nullable="false" />
+          <Property Name="Customer" Type="int" Nullable="false" />
+          <Property Name="User" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_CalculatingCost_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="CalculatingCost" Type="Self.CalculatingCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CalculatingCost">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Costs_Materials">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="0..1" />
+          <End Role="Costs" Type="Self.Costs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Costs">
+              <PropertyRef Name="Material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Costs_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="Costs" Type="Self.Costs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Costs">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Specification_Materials">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="1" />
+          <End Role="Specification" Type="Self.Specification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Specification">
+              <PropertyRef Name="Materials" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_СustomersOrder_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="СustomersOrder" Type="Self.СustomersOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="СustomersOrder">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_СustomersOrder_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="СustomersOrder" Type="Self.СustomersOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="СustomersOrder">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_СustomersOrder_Сustomers">
+          <End Role="Сustomers" Type="Self.Сustomers" Multiplicity="1" />
+          <End Role="СustomersOrder" Type="Self.СustomersOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сustomers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="СustomersOrder">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище DBBurgerPlusModelContainer">
+          <EntitySet Name="CalculatingCost" EntityType="Self.CalculatingCost" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Costs" EntityType="Self.Costs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materials" EntityType="Self.Materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Specification" EntityType="Self.Specification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сustomers" EntityType="Self.Сustomers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="СustomersOrder" EntityType="Self.СustomersOrder" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CalculatingCost_Products" Association="Self.FK_CalculatingCost_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="CalculatingCost" EntitySet="CalculatingCost" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Costs_Materials" Association="Self.FK_Costs_Materials">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="Costs" EntitySet="Costs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Costs_Products" Association="Self.FK_Costs_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Costs" EntitySet="Costs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Specification_Materials" Association="Self.FK_Specification_Materials">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="Specification" EntitySet="Specification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_СustomersOrder_Products" Association="Self.FK_СustomersOrder_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="СustomersOrder" EntitySet="СustomersOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_СustomersOrder_Users" Association="Self.FK_СustomersOrder_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="СustomersOrder" EntitySet="СustomersOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_СustomersOrder_Сustomers" Association="Self.FK_СustomersOrder_Сustomers">
+            <End Role="Сustomers" EntitySet="Сustomers" />
+            <End Role="СustomersOrder" EntitySet="СustomersOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBBurgerPlusModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="CalculatingCost">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Product" Type="Int32" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Double" Nullable="false" />
+          <Property Name="Cost" Type="Double" Nullable="false" />
+          <Property Name="Total" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_CalculatingCost_Products" FromRole="CalculatingCost" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Costs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Product" Type="Int32" />
+          <Property Name="Material" Type="Int32" />
+          <Property Name="Cost" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Materials" Relationship="Self.FK_Costs_Materials" FromRole="Costs" ToRole="Materials" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_Costs_Products" FromRole="Costs" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Materials">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Material" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Double" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Costs" Relationship="Self.FK_Costs_Materials" FromRole="Materials" ToRole="Costs" />
+          <NavigationProperty Name="Specification" Relationship="Self.FK_Specification_Materials" FromRole="Materials" ToRole="Specification" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Product" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Code" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Double" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CalculatingCost" Relationship="Self.FK_CalculatingCost_Products" FromRole="Products" ToRole="CalculatingCost" />
+          <NavigationProperty Name="Costs" Relationship="Self.FK_Costs_Products" FromRole="Products" ToRole="Costs" />
+          <NavigationProperty Name="СustomersOrder" Relationship="Self.FK_СustomersOrder_Products" FromRole="Products" ToRole="СustomersOrder" />
+        </EntityType>
+        <EntityType Name="Roles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_Roles" FromRole="Roles" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="Specification">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Materials" Type="Int32" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Quantity" Type="Double" Nullable="false" />
+          <NavigationProperty Name="Materials1" Relationship="Self.FK_Specification_Materials" FromRole="Specification" ToRole="Materials" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Login" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="Int32" Nullable="false" />
+          <Property Name="Block" Type="Boolean" Nullable="false" />
+          <Property Name="LogTry" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_Users_Roles" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="СustomersOrder" Relationship="Self.FK_СustomersOrder_Users" FromRole="Users" ToRole="СustomersOrder" />
+        </EntityType>
+        <EntityType Name="Сustomers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Inn" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Addres" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Saleman" Type="Boolean" Nullable="false" />
+          <Property Name="Buyer" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="СustomersOrder" Relationship="Self.FK_СustomersOrder_Сustomers" FromRole="Сustomers" ToRole="СustomersOrder" />
+        </EntityType>
+        <EntityType Name="СustomersOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Product" Type="Int32" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="UnitOfMeasurement" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Cost" Type="Int32" Nullable="false" />
+          <Property Name="Summa" Type="Int32" Nullable="false" />
+          <Property Name="Customer" Type="Int32" Nullable="false" />
+          <Property Name="User" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Products" Relationship="Self.FK_СustomersOrder_Products" FromRole="СustomersOrder" ToRole="Products" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_СustomersOrder_Users" FromRole="СustomersOrder" ToRole="Users" />
+          <NavigationProperty Name="Сustomers" Relationship="Self.FK_СustomersOrder_Сustomers" FromRole="СustomersOrder" ToRole="Сustomers" />
+        </EntityType>
+        <Association Name="FK_CalculatingCost_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="CalculatingCost" Type="Self.CalculatingCost" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="CalculatingCost">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Costs_Materials">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="0..1" />
+          <End Role="Costs" Type="Self.Costs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Costs">
+              <PropertyRef Name="Material" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Costs_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="0..1" />
+          <End Role="Costs" Type="Self.Costs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Costs">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Specification_Materials">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="1" />
+          <End Role="Specification" Type="Self.Specification" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Specification">
+              <PropertyRef Name="Materials" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_СustomersOrder_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="СustomersOrder" Type="Self.СustomersOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="СustomersOrder">
+              <PropertyRef Name="Product" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Roles">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Roles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_СustomersOrder_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="СustomersOrder" Type="Self.СustomersOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="СustomersOrder">
+              <PropertyRef Name="User" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_СustomersOrder_Сustomers">
+          <End Role="Сustomers" Type="Self.Сustomers" Multiplicity="1" />
+          <End Role="СustomersOrder" Type="Self.СustomersOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сustomers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="СustomersOrder">
+              <PropertyRef Name="Customer" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBBurgerPlusEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CalculatingCost" EntityType="Self.CalculatingCost" />
+          <EntitySet Name="Costs" EntityType="Self.Costs" />
+          <EntitySet Name="Materials" EntityType="Self.Materials" />
+          <EntitySet Name="Products" EntityType="Self.Products" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
+          <EntitySet Name="Specification" EntityType="Self.Specification" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="Сustomers" EntityType="Self.Сustomers" />
+          <EntitySet Name="СustomersOrder" EntityType="Self.СustomersOrder" />
+          <AssociationSet Name="FK_CalculatingCost_Products" Association="Self.FK_CalculatingCost_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="CalculatingCost" EntitySet="CalculatingCost" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Costs_Materials" Association="Self.FK_Costs_Materials">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="Costs" EntitySet="Costs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Costs_Products" Association="Self.FK_Costs_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="Costs" EntitySet="Costs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Specification_Materials" Association="Self.FK_Specification_Materials">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="Specification" EntitySet="Specification" />
+          </AssociationSet>
+          <AssociationSet Name="FK_СustomersOrder_Products" Association="Self.FK_СustomersOrder_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="СustomersOrder" EntitySet="СustomersOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Roles" Association="Self.FK_Users_Roles">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_СustomersOrder_Users" Association="Self.FK_СustomersOrder_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="СustomersOrder" EntitySet="СustomersOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_СustomersOrder_Сustomers" Association="Self.FK_СustomersOrder_Сustomers">
+            <End Role="Сustomers" EntitySet="Сustomers" />
+            <End Role="СustomersOrder" EntitySet="СustomersOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище DBBurgerPlusModelContainer" CdmEntityContainer="DBBurgerPlusEntities">
+          <EntitySetMapping Name="CalculatingCost">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.CalculatingCost">
+              <MappingFragment StoreEntitySet="CalculatingCost">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="UnitOfMeasurement" ColumnName="UnitOfMeasurement" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Costs">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.Costs">
+              <MappingFragment StoreEntitySet="Costs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materials">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.Materials">
+              <MappingFragment StoreEntitySet="Materials">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Material" ColumnName="Material" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitOfMeasurement" ColumnName="UnitOfMeasurement" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.Products">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitOfMeasurement" ColumnName="UnitOfMeasurement" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Specification">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.Specification">
+              <MappingFragment StoreEntitySet="Specification">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Materials" ColumnName="Materials" />
+                <ScalarProperty Name="UnitOfMeasurement" ColumnName="UnitOfMeasurement" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Block" ColumnName="Block" />
+                <ScalarProperty Name="LogTry" ColumnName="LogTry" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сustomers">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.Сustomers">
+              <MappingFragment StoreEntitySet="Сustomers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Inn" ColumnName="Inn" />
+                <ScalarProperty Name="Addres" ColumnName="Addres" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+                <ScalarProperty Name="Saleman" ColumnName="Saleman" />
+                <ScalarProperty Name="Buyer" ColumnName="Buyer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="СustomersOrder">
+            <EntityTypeMapping TypeName="DBBurgerPlusModel.СustomersOrder">
+              <MappingFragment StoreEntitySet="СustomersOrder">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Product" ColumnName="Product" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="UnitOfMeasurement" ColumnName="UnitOfMeasurement" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="Summa" ColumnName="Summa" />
+                <ScalarProperty Name="Customer" ColumnName="Customer" />
+                <ScalarProperty Name="User" ColumnName="User" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
